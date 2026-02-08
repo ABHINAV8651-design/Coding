@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="calculator">
+            <h1>Scientific Calculator</h1>
+            
+            <!-- Mode Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="basic">Basic</button>
+                <button class="tab-btn" data-tab="scientific">Scientific</button>
+            </div>
+            
+            <div class="display">
+                <input 
+                    type="text" 
+                    id="display" 
+                    placeholder="0" 
+                    readonly
+                    class="display-input"
+                >
+            </div>
+            
+            <!-- BASIC MODE -->
+            <div id="basic-tab" class="tab-content active">
+                <div class="input-section">
+                    <div class="input-group">
+                        <label for="num1">First Number:</label>
+                        <input 
+                            type="number" 
+                            id="num1" 
+                            placeholder="Enter number"
+                            step="0.01"
+                        >
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="operator">Operator:</label>
+                        <select id="operator">
+                            <option value="+">+ (Addition)</option>
+                            <option value="-">- (Subtraction)</option>
+                            <option value="*">× (Multiplication)</option>
+                            <option value="/">÷ (Division)</option>
+                            <option value="**">^ (Power)</option>
+                            <option value="%">% (Modulo)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="num2">Second Number:</label>
+                        <input 
+                            type="number" 
+                            id="num2" 
+                            placeholder="Enter number"
+                            step="0.01"
+                        >
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button id="calculateBtn" class="btn btn-calculate">Calculate</button>
+                    <button id="clearBtn" class="btn btn-clear">Clear</button>
+                </div>
+            </div>
+            
+            <!-- SCIENTIFIC MODE -->
+            <div id="scientific-tab" class="tab-content">
+                <div class="science-controls">
+                    <div class="angle-mode-toggle">
+                        <label>Angle Mode:</label>
+                        <div class="toggle-group">
+                            <button class="angle-btn active" data-mode="deg">Degrees</button>
+                            <button class="angle-btn" data-mode="rad">Radians</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-section science-input">
+                    <div class="input-group">
+                        <label for="sci-num">Number:</label>
+                        <input 
+                            type="number" 
+                            id="sci-num" 
+                            placeholder="Enter number"
+                            step="0.001"
+                        >
+                    </div>
+                </div>
+                
+                <!-- Constants -->
+                <div class="function-section">
+                    <h3>Constants</h3>
+                    <div class="btn-grid">
+                        <button class="btn btn-function" data-func="pi">π (Pi)</button>
+                        <button class="btn btn-function" data-func="e">e (Euler)</button>
+                    </div>
+                </div>
+                
+                <!-- Trigonometric Functions -->
+                <div class="function-section">
+                    <h3>Trigonometric</h3>
+                    <div class="btn-grid">
+                        <button class="btn btn-function" data-func="sin">sin</button>
+                        <button class="btn btn-function" data-func="cos">cos</button>
+                        <button class="btn btn-function" data-func="tan">tan</button>
+                        <button class="btn btn-function" data-func="asin">asin</button>
+                        <button class="btn btn-function" data-func="acos">acos</button>
+                        <button class="btn btn-function" data-func="atan">atan</button>
+                    </div>
+                </div>
+                
+                <!-- Hyperbolic Functions -->
+                <div class="function-section">
+                    <h3>Hyperbolic</h3>
+                    <div class="btn-grid">
+                        <button class="btn btn-function" data-func="sinh">sinh</button>
+                        <button class="btn btn-function" data-func="cosh">cosh</button>
+                        <button class="btn btn-function" data-func="tanh">tanh</button>
+                    </div>
+                </div>
+                
+                <!-- Logarithmic Functions -->
+                <div class="function-section">
+                    <h3>Logarithmic</h3>
+                    <div class="btn-grid">
+                        <button class="btn btn-function" data-func="ln">ln (Natural)</button>
+                        <button class="btn btn-function" data-func="log10">log₁₀</button>
+                    </div>
+                </div>
+                
+                <!-- Power & Root Functions -->
+                <div class="function-section">
+                    <h3>Power & Roots</h3>
+                    <div class="btn-grid">
+                        <button class="btn btn-function" data-func="square">x²</button>
+                        <button class="btn btn-function" data-func="cube">x³</button>
+                        <button class="btn btn-function" data-func="sqrt">√x</button>
+                        <button class="btn btn-function" data-func="cbrt">∛x</button>
+                        <button class="btn btn-function" data-func="reciprocal">1/x</button>
+                    </div>
+                </div>
+                
+                <!-- Other Functions -->
+                <div class="function-section">
+                    <h3>Other Functions</h3>
+                    <div class="btn-grid">
+                        <button class="btn btn-function" data-func="abs">|x| (Abs)</button>
+                        <button class="btn btn-function" data-func="negate">±</button>
+                        <button class="btn btn-function" data-func="factorial">x!</button>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button id="sciClearBtn" class="btn btn-clear">Clear</button>
+                </div>
+            </div>
+            
+            <!-- Result Section -->
+            <div id="result-section" class="result-section" style="display: none;">
+                <h3>Result:</h3>
+                <div class="result-display" id="resultDisplay"></div>
+            </div>
+            
+            <!-- Error Section -->
+            <div id="error-section" class="error-section" style="display: none;">
+                <p id="errorMessage"></p>
+            </div>
+            
+            <!-- History Section -->
+            <div class="history-section">
+                <h3>Calculation History</h3>
+                <ul id="history" class="history-list"></ul>
+                <button id="clearHistoryBtn" class="btn btn-secondary">Clear History</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
